@@ -1,6 +1,6 @@
 from typing import Optional
 
-from data import db_session
+from db import db_session
 from data.packages import Package
 
 
@@ -27,6 +27,7 @@ def create_package(name: str, summary: str, description: str) -> Optional[Packag
     package.description = description
     session.add(package)
     session.commit()
+
 
 def delete_package_from_db(name):
     session = db_session.create_session()

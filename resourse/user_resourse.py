@@ -13,8 +13,8 @@ _user_parser.add_argument('password', type=str, required=True, help='Enter passw
 class UserRegister(Resource):
     def post(self):
         data = _user_parser.parse_args()
-        if find_user_by_username(data['username']):
-            return {"massage": "A user with this username already exists"}, 400
+        # if find_user_by_username(data['username']):
+        #     return {"massage": "A user with this username already exists"}, 400
 
         create_user(data['username'], data['password'])
         return {"massage": "user created successfully"}, 201

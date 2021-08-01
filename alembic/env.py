@@ -20,7 +20,7 @@ fileConfig(config.config_file_name)
 folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, folder)
 
-from data.modelbase import SQLAlchemyBase
+from db.modelbase import SQLAlchemyBase
 # noinspection PyUnresolvedReferences
 import data.__all_models
 

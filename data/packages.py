@@ -2,18 +2,18 @@ import datetime
 
 import sqlalchemy as sa
 
-from data.modelbase import SQLAlchemyBase
+from db.modelbase import SQLAlchemyBase
 
 
 class Package(SQLAlchemyBase):
     __tablename__ = 'packages'
 
-    id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
-    name = sa.Column(sa.String)
-    create_date = sa.Column(sa.DateTime, default=datetime.datetime.now, index=True)
-    updated_date = sa.Column(sa.DateTime, default=datetime.datetime.now, index=True)
-    summary = sa.Column(sa.String)
-    description = sa.Column(sa.String)
+    id: int = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
+    name: str = sa.Column(sa.String)
+    create_date: datetime = sa.Column(sa.DateTime, default=datetime.datetime.now, index=True)
+    updated_date: datetime = sa.Column(sa.DateTime, onupdate=datetime.datetime.now, index=True)
+    summary: str = sa.Column(sa.String)
+    description: str = sa.Column(sa.String)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return '<Package{}'.format(self.id)

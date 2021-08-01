@@ -28,17 +28,17 @@ class Package(Resource):
             package = Package(name, **data)
 
         create_package(package.name, package.summary, package.description)
+        return {"massage": "package updated successfully"},200
 
-    @classmethod
     @jwt_required
-    def delete(cls, name):
+    def delete(self, name):
         claims = get_jwt_claims()
         if not claims['is_admin']:
             return {"massage": "admin privilege required"}
 
         delete_package_from_db(name)
 
-        return {"massage": "package deleted"}
+        return {"massage": "package deleted"}, 200
 
 
 class APackage(Resource):

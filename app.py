@@ -5,8 +5,8 @@ from flask import Flask
 from flask_jwt_extended import JWTManager
 from flask_restful import Api
 
-from data.db_session import engine
-from data.modelbase import SQLAlchemyBase
+from db.db_session import engine
+from db.modelbase import SQLAlchemyBase
 from resourse.user_resourse import UserRegister, User, UsersList, UserLogin
 from resourse.package_resourse import Package, PackageList, APackage
 

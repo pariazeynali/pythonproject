@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from app import app as test_app
 from test_engine import engine
-from data.modelbase import SQLAlchemyBase
+from db.modelbase import SQLAlchemyBase
 
 Session = sessionmaker()
 

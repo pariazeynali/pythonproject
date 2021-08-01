@@ -2,7 +2,7 @@ from typing import Optional
 
 from flask_bcrypt import Bcrypt
 
-from data import db_session
+from db import db_session
 from data.users import UserModel
 
 bcrypt = Bcrypt()

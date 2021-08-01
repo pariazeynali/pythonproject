@@ -3,7 +3,7 @@ import unittest
 from sqlalchemy.orm import Session, sessionmaker
 
 from test_engine import engine
-from data.modelbase import SQLAlchemyBase
+from db.modelbase import SQLAlchemyBase
 from data.packages import Package
 
 
