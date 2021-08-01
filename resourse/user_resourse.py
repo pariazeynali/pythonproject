@@ -22,15 +22,15 @@ class UserRegister(Resource):
 
 class User(Resource):
     @classmethod
-    def get(cls, user_id):
-        user = find_user_by_userid(user_id)
+    def get(cls, username):
+        user = find_user_by_username(username)
         if not user:
             return {"massage": "User not found"}, 404
         return user_schema.dump(user)
 
     @classmethod
-    def delete(cls, user_id):
-        user = find_user_by_userid(user_id)
+    def delete(cls, username):
+        user = find_user_by_userid(username)
         if not user:
             return {"massage": "User not found"}, 404
         delete_from_db(user)

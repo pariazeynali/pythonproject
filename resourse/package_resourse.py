@@ -29,24 +29,23 @@ class Package(Resource):
 
         create_package(package.name, package.summary, package.description)
 
+    @classmethod
     @jwt_required
-    def delete(self, name):
+    def delete(cls, name):
         claims = get_jwt_claims()
         if not claims['is_admin']:
             return {"massage": "admin privilege required"}
-        package = find_package_by_name(name)
-        delete_package_from_db(package)
+
+        delete_package_from_db(name)
+
         return {"massage": "package deleted"}
-
-
 
 
 class APackage(Resource):
     def post(self):
         data = _package_parser.parse_args()
-        pname = data['name']
-        # if find_package_by_name(pname):
-        #     return {"massage": "package with name {} already exists".format(pname)}, 400
+        if find_package_by_name(data['name']):
+            return {"massage": "package with name {} already exists".format(data['name'])}, 400
         try:
             create_package(data['name'], data['summary'], data['description'])
             return {"massage": "package created successfully!"}, 200
@@ -62,6 +61,6 @@ class PackageList(Resource):
         if username:
             return {"packages": packages}
         return {
-            "items":[package['name'] for package in packages],
-            "massage":"more information if you login"
+            "items": [package['name'] for package in packages],
+            "massage": "more information if you login"
         }

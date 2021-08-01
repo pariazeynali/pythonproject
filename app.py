@@ -35,7 +35,7 @@ jwt = JWTManager(app)
 
 @jwt.user_claims_loader
 def add_claims_to_jwt(identity):
-    if identity == 'user1':
+    if identity == 'u1':
         return {'is_admin': True}
     return {'is_admin': False}
 
@@ -44,7 +44,7 @@ api.add_resource(UserRegister, '/register')
 api.add_resource(Package, '/package/<string:name>')
 api.add_resource(APackage, '/add-package')
 api.add_resource(PackageList, '/packages')
-api.add_resource(User, '/user/<int:user_id>')
+api.add_resource(User, '/user/<string:username>')
 api.add_resource(UsersList, '/users')
 api.add_resource(UserLogin, '/login')
 

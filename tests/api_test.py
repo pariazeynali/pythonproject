@@ -17,32 +17,30 @@ class TestApi(unittest.TestCase):
         self.connection = engine.connect()
         self.session = Session(bind=self.connection)
         SQLAlchemyBase.metadata.create_all(engine)
+
+    def tearDown(self) -> None:
         for table in reversed(SQLAlchemyBase.metadata.sorted_tables):
             self.session.execute(table.delete())
         self.connection.close()
 
     def test_successful_signup(self):
-        # Given
         user = json.dumps({
             "username": "user1",
             "password": "123456"
         })
 
-        # When
         response = self.app.post('/register', headers={"Content-Type": "application/json"}, data=user)
-        print(response)
-        assert 400 == response.status_code
-
-    # def test_successful_login(self):
-    #    pass
+        print(response.json)
+        assert 200 == response.status_code
 
     def test_successful_add_package(self):
         package = json.dumps({
-            "name": "p1",
+            "name": "p5",
             "summary": "sp1",
             "description": "dp1"
         })
 
         response = self.app.post('/add-package', headers={"Content-Type": "application/json"}, data=package)
-        assert 400 == response.status_code
+        print(response.json)
+        assert 200 == response.status_code
         assert response.json == {'massage': 'package with name p1 already exists'}

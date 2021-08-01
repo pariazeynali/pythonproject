@@ -28,9 +28,8 @@ def create_package(name: str, summary: str, description: str) -> Optional[Packag
     session.add(package)
     session.commit()
 
-
-@classmethod
-def delete_package_from_db(cls):
+def delete_package_from_db(name):
     session = db_session.create_session()
-    session.delete(cls)
+    package = session.query(Package).filter(Package.name == name).one()
+    session.delete(package)
     session.commit()
