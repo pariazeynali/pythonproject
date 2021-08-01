@@ -9,14 +9,14 @@ from db.modelbase import SQLAlchemyBase
 class Release(SQLAlchemyBase):
     __tablename__ = 'releases'
 
-    name = sa.Column(sa.String, primary_key=True, unique=True)
+    name: str = sa.Column(sa.String, primary_key=True, unique=True)
     major_var: int = sa.Column(sa.BigInteger, index=True)
     minor_var: int = sa.Column(sa.BigInteger, index=True)
     build_var: int = sa.Column(sa.BigInteger, index=True)
 
-    create_date = sa.Column(sa.DateTime, default=datetime, index=True)
+    create_date: datetime = sa.Column(sa.DateTime, default=datetime, index=True)
 
-    package_id = sa.Column(sa.String, sa.ForeignKey("packages.id"))
+    package_id: int = sa.Column(sa.String, sa.ForeignKey("packages.id"))
     package = orm.relation('Package')
 
     @property
