@@ -1,16 +1,17 @@
-from marshmallow_sqlalchemy import SQLAlchemySchema, auto_field
+from marshmallow import Schema, fields
 from data.packages import Package
 
 
-class PackageSchema(SQLAlchemySchema):
+class PackageSchema(Schema):
+
     class Meta:
         model = Package
         include_relationships = True
         load_instance = True
 
-    name = auto_field()
-    summary = auto_field()
-    description = auto_field()
+    name = fields.Str()
+    summary = fields.Str()
+    description = fields.Str()
 
 
 package_schema = PackageSchema()

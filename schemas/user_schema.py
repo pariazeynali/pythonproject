@@ -1,16 +1,16 @@
-from marshmallow_sqlalchemy import SQLAlchemySchema, auto_field
+from marshmallow import Schema, fields
 
 from data.users import UserModel
 
 
-class UserSchema(SQLAlchemySchema):
+class UserSchema(Schema):
     class Meta:
         model = UserModel
         include_relationships = True
         load_instance = True
 
-    username = auto_field()
-    password = auto_field()
+    username = fields.Str()
+    password = fields.Str()
 
 
 user_schema = UserSchema()

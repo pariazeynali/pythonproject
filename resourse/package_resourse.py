@@ -70,6 +70,6 @@ class PackageList(Resource):
         if username:
             return {"packages": packages}
         return {
-            "items": [package['name'] for package in packages],
+            "packages": [package['name'] for package in packages],
             "massage": "more information if you login"
         }
