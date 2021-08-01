@@ -1,7 +1,7 @@
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_refresh_token_required, get_jwt_identity
 from flask_restful import Resource, reqparse
 
-from servises.user_servises import *
+from services.user_services import *
 from schemas.user_schema import user_schema, users_schema
 
 

@@ -1,7 +1,7 @@
 from flask_jwt_extended import jwt_required, get_jwt_claims, jwt_optional, get_jwt_identity
 from flask_restful import Resource, reqparse
 
-from servises.package_servises import *
+from services.package_services import *
 from schemas.package_schema import package_schema, packages_schema
 
 _package_parser = reqparse.RequestParser()
