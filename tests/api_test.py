@@ -30,8 +30,7 @@ class TestApi(unittest.TestCase):
         })
 
         response = self.app.post('/register', headers={"Content-Type": "application/json"}, data=user)
-        print(response.json)
-        assert 200 == response.status_code
+        self.assertEqual(response.status_code, 200)
 
     def test_successful_add_package(self):
         package = json.dumps({
@@ -41,6 +40,4 @@ class TestApi(unittest.TestCase):
         })
 
         response = self.app.post('/add-package', headers={"Content-Type": "application/json"}, data=package)
-        print(response.json)
-        assert 200 == response.status_code
-        assert response.json == {'massage': 'package with name p1 already exists'}
+        self.assertEqual(response.status_code, 200)

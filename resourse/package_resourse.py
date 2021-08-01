@@ -1,8 +1,9 @@
 from flask_jwt_extended import jwt_required, get_jwt_claims, jwt_optional, get_jwt_identity
 from flask_restful import Resource, reqparse
 
-from services.package_services import *
+from services.package_services import find_package_by_name, create_package, delete_package_from_db, all_packages
 from schemas.package_schema import package_schema, packages_schema
+from exceptions import InvalidUsage
 
 _package_parser = reqparse.RequestParser()
 _package_parser.add_argument('name', type=str, required=True, help='this field cannot be blank!')
@@ -14,43 +15,51 @@ class Package(Resource):
 
     def get(self, name):
         package = find_package_by_name(name)
-        if package:
+        if package is not None:
             return package_schema.dump(package)
-        return {"massage": "Package not found"}, 404
+        return InvalidUsage.package_not_found()
 
+    @jwt_required
     def put(self, name):
+        claims = get_jwt_claims()
+        if not claims['is_admin']:
+            return InvalidUsage.admin_privilege_required()
         data = _package_parser.parse_args()
         package = find_package_by_name(name)
-        if package:
+        if package is not None:
             package.summary = data['summary']
             package.description = data['description']
         else:
             package = Package(name, **data)
 
         create_package(package.name, package.summary, package.description)
-        return {"massage": "package updated successfully"},200
+        return {"massage": "package updated successfully"}, 200
 
     @jwt_required
     def delete(self, name):
         claims = get_jwt_claims()
         if not claims['is_admin']:
-            return {"massage": "admin privilege required"}
+            return InvalidUsage.admin_privilege_required()
 
         delete_package_from_db(name)
 
         return {"massage": "package deleted"}, 200
 
 
-class APackage(Resource):
+class AddPackage(Resource):
+    @jwt_required
     def post(self):
+        claims = get_jwt_claims()
+        if not claims['is_admin']:
+            return InvalidUsage.admin_privilege_required()
         data = _package_parser.parse_args()
         if find_package_by_name(data['name']):
-            return {"massage": "package with name {} already exists".format(data['name'])}, 400
+            return InvalidUsage.package_already_exists()
         try:
             create_package(data['name'], data['summary'], data['description'])
             return {"massage": "package created successfully!"}, 200
         except:
-            return {"massage": "unknown error"}, 500
+            return InvalidUsage.unknown_error()
 
 
 class PackageList(Resource):

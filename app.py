@@ -8,7 +8,7 @@ from flask_restful import Api
 from db.db_session import engine
 from db.modelbase import SQLAlchemyBase
 from resourse.user_resourse import UserRegister, User, UsersList, UserLogin
-from resourse.package_resourse import Package, PackageList, APackage
+from resourse.package_resourse import Package, PackageList, AddPackage
 
 folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, folder)
@@ -42,7 +42,7 @@ def add_claims_to_jwt(identity):
 
 api.add_resource(UserRegister, '/register')
 api.add_resource(Package, '/package/<string:name>')
-api.add_resource(APackage, '/add-package')
+api.add_resource(AddPackage, '/add-package')
 api.add_resource(PackageList, '/packages')
 api.add_resource(User, '/user/<string:username>')
 api.add_resource(UsersList, '/users')

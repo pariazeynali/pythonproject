@@ -24,7 +24,7 @@ def hash_pass(password) -> str:
 
 
 @classmethod
-def delete_from_db(cls):
+def delete_from_db(cls) -> None:
     session = db_session.create_session()
     session.delete(cls)
     session.commit()
@@ -39,6 +39,6 @@ def create_user(username: str, password: str) -> Optional[UserModel]:
     session.commit()
 
 
-def all_users():
+def all_users() ->Optional[UserModel]:
     session = db_session.create_session()
     return session.query(UserModel).all()

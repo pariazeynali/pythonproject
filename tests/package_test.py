@@ -20,33 +20,43 @@ class TestPackage(unittest.TestCase):
 
     def test_when_add_new_package(self) -> None:
         p = Package()
+
         p.name = 'p1'
         p.summary = 'summary of p1'
         p.description = 'description of p1'
+
         self.session.add(p)
         self.session.commit()
         self.assertEqual(1, self.session.query(Package).count())
 
     def test_when_update_a_package(self) -> None:
         p = Package()
+
         p.name = 'p1'
         p.summary = 'summary of p1'
         p.description = 'description of p1'
+
         self.session.add(p)
         self.session.commit()
+
         new_summary = 'summary of package 1'
         p.summary = new_summary
+
         self.session.add(p)
         self.session.commit()
+
         p1 = p
+
         self.assertEqual(1, self.session.query(Package).count())
         self.assertEqual(new_summary, p1.summary)
 
     def test_when_delete_package(self) -> None:
         p = Package()
+
         p.name = 'p1'
         p.summary = 'summary of p1'
         p.description = 'description of p1'
+
         self.session.add(p)
         self.session.commit()
         self.assertEqual(1, self.session.query(Package).count())
