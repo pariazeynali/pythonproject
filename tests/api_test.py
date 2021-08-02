@@ -32,12 +32,35 @@ class TestApi(unittest.TestCase):
         response = self.app.post('/register', headers={"Content-Type": "application/json"}, data=user)
         self.assertEqual(response.status_code, 200)
 
+    def test_successful_login(self):
+        user = json.dumps({
+            "username": "user1",
+            "password": "12345"
+        })
+
+        response = self.app.post('/register', headers={"Content-Type": "application/json"}, data=user)
+
+        response = self.app.post('/login', headers={"Content-Type": "application/json"}, data=user)
+
+        self.assertEqual(response.status_code, 200)
+
     def test_successful_add_package(self):
+        user = json.dumps({
+            "username": "u1",
+            "password": "123456"
+        })
         package = json.dumps({
             "name": "p5",
             "summary": "sp1",
             "description": "dp1"
         })
 
-        response = self.app.post('/add-package', headers={"Content-Type": "application/json"}, data=package)
+        response = self.app.post('/register', headers={"Content-Type": "application/json"}, data=user)
+
+        response = self.app.post('/login', headers={"Content-Type": "application/json"},data = user)
+
+        response = self.app.post('/add-package', headers={"Content-Type": "application/json",
+                                                          "Authorization": "Bearer response['access_token]"},
+                                 data=package)
+        print(response.json)
         self.assertEqual(response.status_code, 200)
