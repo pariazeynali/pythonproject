@@ -53,8 +53,9 @@ class AddPackage(Resource):
         if not claims['is_admin']:
             return InvalidUsage.admin_privilege_required()
         data = _package_parser.parse_args()
-        if find_package_by_name(data['name']):
-            return InvalidUsage.package_already_exists()
+        # package = find_package_by_name(data['name'])
+        # if package is not None:
+        #     return InvalidUsage.package_already_exists()
         try:
             create_package(data['name'], data['summary'], data['description'])
             return {"massage": "package created successfully!"}, 200

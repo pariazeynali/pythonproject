@@ -4,6 +4,7 @@ import sys
 from flask import Flask
 from flask_jwt_extended import JWTManager
 from flask_restful import Api
+from dotenv import load_dotenv , find_dotenv
 
 from db.db_session import engine
 from db.modelbase import SQLAlchemyBase
@@ -15,13 +16,14 @@ sys.path.insert(0, folder)
 
 app = Flask(__name__)
 app.config['PROPAGATE_EXCEPTION'] = True
-app.secret_key = 'paria'
+app.secret_key = os.getenv('SECRET_KEY')
 api = Api(app)
 
 
 def main():
     setup_db()
     app.run(debug=True)
+    load_dotenv(find_dotenv())
 
 
 # noinspection PyUnresolvedReferences
@@ -35,7 +37,8 @@ jwt = JWTManager(app)
 
 @jwt.user_claims_loader
 def add_claims_to_jwt(identity):
-    if identity == 'u1':
+    admin_username = os.getenv('ADMIN_USERNAME')
+    if identity == admin_username:
         return {'is_admin': True}
     return {'is_admin': False}
 
