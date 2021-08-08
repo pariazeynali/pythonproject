@@ -10,7 +10,6 @@ class UserSchema(Schema):
         load_instance = True
 
     username = fields.Str()
-    password = fields.Str()
 
 
 user_schema = UserSchema()

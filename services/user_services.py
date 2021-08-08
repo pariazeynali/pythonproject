@@ -23,10 +23,10 @@ def hash_pass(password) -> str:
     return hashed_password
 
 
-@classmethod
-def delete_from_db(cls) -> None:
+def delete_user_from_db(name) -> None:
     session = db_session.create_session()
-    session.delete(cls)
+    user = session.query(UserModel).filter(UserModel.username == name).one()
+    session.delete(user)
     session.commit()
 
 

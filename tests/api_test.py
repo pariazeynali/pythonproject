@@ -1,9 +1,11 @@
 import unittest
 import json
+import unittest.mock
 
 from sqlalchemy.orm import Session, sessionmaker
 
 from app import app as test_app
+from data.users import UserModel
 from test_engine import engine
 from db.modelbase import SQLAlchemyBase
 
@@ -30,6 +32,7 @@ class TestApi(unittest.TestCase):
         })
 
         response = self.app.post('/register', headers={"Content-Type": "application/json"}, data=user)
+
         self.assertEqual(response.status_code, 200)
 
     def test_successful_login(self):
@@ -57,10 +60,11 @@ class TestApi(unittest.TestCase):
 
         response = self.app.post('/register', headers={"Content-Type": "application/json"}, data=user)
 
-        response = self.app.post('/login', headers={"Content-Type": "application/json"},data = user)
+        response = self.app.post('/login', headers={"Content-Type": "application/json"}, data=user)
+
+        access_token = response['access_token']
 
         response = self.app.post('/add-package', headers={"Content-Type": "application/json",
-                                                          "Authorization": "Bearer response['access_token]"},
+                                                          "Authorization": "Bearer access_token"},
                                  data=package)
-        print(response.json)
         self.assertEqual(response.status_code, 200)

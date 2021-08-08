@@ -4,7 +4,7 @@ import sys
 from flask import Flask
 from flask_jwt_extended import JWTManager
 from flask_restful import Api
-from dotenv import load_dotenv , find_dotenv
+from dotenv import load_dotenv, find_dotenv
 
 from db.db_session import engine
 from db.modelbase import SQLAlchemyBase
@@ -22,7 +22,7 @@ api = Api(app)
 
 def main():
     setup_db()
-    app.run(debug=True)
+    app.run( debug=True)
     load_dotenv(find_dotenv())
 
 

@@ -41,9 +41,11 @@ class Package(Resource):
         if not claims['is_admin']:
             return InvalidUsage.admin_privilege_required()
 
-        delete_package_from_db(name)
-
-        return {"massage": "package deleted"}, 200
+        try:
+            delete_package_from_db(name)
+            return {"massage": "package deleted"}, 200
+        except:
+            InvalidUsage.unknown_error()
 
 
 class AddPackage(Resource):

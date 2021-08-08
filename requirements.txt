@@ -5,3 +5,4 @@ marshmallow==3.12.2
 marshmallow-sqlalchemy==0.26.1
 Flask-JWT-Extended==3.18.0
 Flask-Bcrypt==0.7.1
+python-dotenv==0.19.0
