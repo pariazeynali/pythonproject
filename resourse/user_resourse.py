@@ -1,8 +1,19 @@
-from flask_jwt_extended import create_access_token, create_refresh_token, jwt_refresh_token_required, get_jwt_identity, \
-    jwt_required, get_jwt_claims
+from flask_jwt_extended import (
+    create_access_token,
+    create_refresh_token,
+    get_jwt_identity,
+    jwt_required,
+    get_jwt,
+)
 from flask_restful import Resource, reqparse
 
-from services.user_services import find_user_by_username, delete_user_from_db, create_user, bcrypt, all_users
+from services.user_services import (
+    find_user_by_username,
+    delete_user_from_db,
+    create_user,
+    bcrypt,
+    all_users,
+)
 from schemas.user_schema import user_schema, users_schema
 from exceptions import InvalidUsage
 
@@ -34,7 +45,7 @@ class User(Resource):
 
     @jwt_required
     def delete(self, username):
-        claims = get_jwt_claims()
+        claims = get_jwt()
         if not claims['is_admin']:
             return InvalidUsage.admin_privilege_required()
         #try:
@@ -66,7 +77,7 @@ class UsersList(Resource):
 
 
 class TokenRefresh(Resource):
-    @jwt_refresh_token_required
+    @jwt_required(refresh=True)
     def post(self):
         current_user = get_jwt_identity()
         new_token = create_access_token(identity=current_user, fresh=False)

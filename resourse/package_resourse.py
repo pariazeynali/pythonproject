@@ -1,4 +1,7 @@
-from flask_jwt_extended import jwt_required, get_jwt_claims, jwt_optional, get_jwt_identity
+from flask_jwt_extended import (
+    jwt_required,
+    get_jwt_identity, get_jwt,
+)
 from flask_restful import Resource, reqparse
 
 from services.package_services import find_package_by_name, create_package, delete_package_from_db, all_packages
@@ -19,9 +22,9 @@ class Package(Resource):
             return package_schema.dump(package)
         return InvalidUsage.package_not_found()
 
-    @jwt_required
+    @jwt_required(optional=True)
     def put(self, name):
-        claims = get_jwt_claims()
+        claims = get_jwt()
         if not claims['is_admin']:
             return InvalidUsage.admin_privilege_required()
         data = _package_parser.parse_args()
@@ -35,9 +38,9 @@ class Package(Resource):
         create_package(package.name, package.summary, package.description)
         return {"massage": "package updated successfully"}, 200
 
-    @jwt_required
+    @jwt_required()
     def delete(self, name):
-        claims = get_jwt_claims()
+        claims = get_jwt()
         if not claims['is_admin']:
             return InvalidUsage.admin_privilege_required()
 
@@ -49,9 +52,9 @@ class Package(Resource):
 
 
 class AddPackage(Resource):
-    @jwt_required
+    @jwt_required()
     def post(self):
-        claims = get_jwt_claims()
+        claims = get_jwt()
         if not claims['is_admin']:
             return InvalidUsage.admin_privilege_required()
         data = _package_parser.parse_args()
@@ -66,7 +69,7 @@ class AddPackage(Resource):
 
 
 class PackageList(Resource):
-    @jwt_optional
+    @jwt_required(optional=True)
     def get(self):
         username = get_jwt_identity()
         packages = packages_schema.dump(all_packages())

@@ -1,13 +1,11 @@
-import unittest
 import json
 import unittest.mock
 
 from sqlalchemy.orm import Session, sessionmaker
 
 from app import app as test_app
-from data.users import UserModel
-from test_engine import engine
 from db.modelbase import SQLAlchemyBase
+from tests.test_engine import engine
 
 Session = sessionmaker()
 

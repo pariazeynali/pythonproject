@@ -1,3 +1,4 @@
+-r requirements.txt
 alembic==1.6.5
 
 pytest==6.2.4
