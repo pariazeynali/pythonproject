@@ -2,9 +2,9 @@ import unittest
 
 from sqlalchemy.orm import Session, sessionmaker
 
-from test_engine import engine
 from data.users import UserModel
 from db.modelbase import SQLAlchemyBase
+from tests.test_engine import engine
 
 Session = sessionmaker()
 

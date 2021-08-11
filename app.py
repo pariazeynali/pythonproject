@@ -35,7 +35,7 @@ def setup_db():
 jwt = JWTManager(app)
 
 
-@jwt.user_claims_loader
+@jwt.additional_claims_loader
 def add_claims_to_jwt(identity):
     admin_username = os.getenv('ADMIN_USERNAME')
     if identity == admin_username:
