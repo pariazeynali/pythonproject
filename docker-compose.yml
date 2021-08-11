@@ -1,0 +1,8 @@
+version: "3.9"
+services:
+  web:
+    depends_on:
+      - db
+  db:
+    image: mysql:latest
+    restart: always
